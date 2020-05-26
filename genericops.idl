@@ -1,0 +1,183 @@
+/* Copyright(c) 2006 to 2019 ADLINK Technology Limited and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License
+ * v. 1.0 which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+ */
+
+module DDS {
+    const long default_domain_id = 2147483647;
+
+    local interface Data : Object { };
+    typedef sequence<Data> DataSeq;
+
+    local interface DataWriter : Entity {
+         InstanceHandle_t
+         register_instance(
+             in Data instance_data);
+    
+         InstanceHandle_t
+         register_instance_w_timestamp(
+             in Data instance_data,
+             in Time_t source_timestamp);
+    
+         ReturnCode_t
+         unregister_instance(
+             in Data instance_data,
+             in InstanceHandle_t handle);
+    
+         ReturnCode_t
+         unregister_instance_w_timestamp(
+             in Data instance_data,
+             in InstanceHandle_t handle,
+             in Time_t source_timestamp);
+    
+         ReturnCode_t
+         write(
+             in Data instance_data,
+             in InstanceHandle_t handle);
+    
+         ReturnCode_t
+         write_w_timestamp(
+             in Data instance_data,
+             in InstanceHandle_t handle,
+             in Time_t source_timestamp);
+    
+         ReturnCode_t
+         dispose(
+             in Data instance_data,
+             in InstanceHandle_t instance_handle);
+    
+         ReturnCode_t
+         dispose_w_timestamp(
+             in Data instance_data,
+             in InstanceHandle_t instance_handle,
+             in Time_t source_timestamp);
+    
+         ReturnCode_t
+         get_key_value(
+             inout Data key_holder,
+             in InstanceHandle_t handle);
+    
+         InstanceHandle_t lookup_instance(
+             in Data instance_data);
+    };
+    
+    local interface DataReader : Entity {
+         ReturnCode_t
+         read(
+             inout DataSeq data_values,
+             inout SampleInfoSeq info_seq,
+             in long max_samples,
+             in SampleStateMask sample_states,
+             in ViewStateMask view_states,
+             in InstanceStateMask instance_states);
+    
+         ReturnCode_t
+         take(
+             inout DataSeq data_values,
+             inout SampleInfoSeq info_seq,
+             in long max_samples,
+             in SampleStateMask sample_states,
+             in ViewStateMask view_states,
+             in InstanceStateMask instance_states);
+    
+         ReturnCode_t
+         read_w_condition(
+             inout DataSeq data_values,
+             inout SampleInfoSeq info_seq,
+             in long max_samples,
+             in ReadCondition a_condition);
+    
+         ReturnCode_t
+         take_w_condition(
+             inout DataSeq data_values,
+             inout SampleInfoSeq info_seq,
+             in long max_samples,
+             in ReadCondition a_condition);
+    
+         ReturnCode_t
+         read_next_sample(
+             inout Data data_values,
+             inout SampleInfo sample_info);
+    
+         ReturnCode_t
+         take_next_sample(
+             inout Data data_values,
+             inout SampleInfo sample_info);
+    
+         ReturnCode_t
+         read_instance(
+             inout DataSeq data_values,
+             inout SampleInfoSeq info_seq,
+             in long max_samples,
+             in InstanceHandle_t a_handle,
+             in SampleStateMask sample_states,
+             in ViewStateMask view_states,
+             in InstanceStateMask instance_states);
+    
+         ReturnCode_t
+         take_instance(
+             inout DataSeq data_values,
+             inout SampleInfoSeq info_seq,
+             in long max_samples,
+             in InstanceHandle_t a_handle,
+             in SampleStateMask sample_states,
+             in ViewStateMask view_states,
+             in InstanceStateMask instance_states);
+    
+         ReturnCode_t
+         read_next_instance(
+             inout DataSeq data_values,
+             inout SampleInfoSeq info_seq,
+             in long max_samples,
+             in InstanceHandle_t a_handle,
+             in SampleStateMask sample_states,
+             in ViewStateMask view_states,
+             in InstanceStateMask instance_states);
+    
+         ReturnCode_t
+         take_next_instance(
+             inout DataSeq data_values,
+             inout SampleInfoSeq info_seq,
+             in long max_samples,
+             in InstanceHandle_t a_handle,
+             in SampleStateMask sample_states,
+             in ViewStateMask view_states,
+             in InstanceStateMask instance_states);
+    
+         ReturnCode_t
+         read_next_instance_w_condition(
+             inout DataSeq data_values,
+             inout SampleInfoSeq info_seq,
+             in long max_samples,
+             in InstanceHandle_t a_handle,
+             in ReadCondition a_condition);
+    
+         ReturnCode_t
+         take_next_instance_w_condition(
+             inout DataSeq data_values,
+             inout SampleInfoSeq info_seq,
+             in long max_samples,
+             in InstanceHandle_t a_handle,
+             in ReadCondition a_condition);
+    
+         ReturnCode_t
+         return_loan(
+             inout DataSeq data_values,
+             inout SampleInfoSeq info_seq);
+    
+         ReturnCode_t
+         get_key_value(
+             inout Data key_holder,
+             in InstanceHandle_t handle);
+    
+         InstanceHandle_t
+         lookup_instance(
+             in Data instance);
+    };
+};
